@@ -12,7 +12,7 @@ from app.cache.cache import add_to_cache, get_from_cache
 logger = logging.getLogger('uvicorn.error')
 
 
-async def fetch_flight(flight_number=None, data_target=None, i=0):
+async def fetch_gate(flight_number=None, data_target=None, i=0):
     logger.debug("Checking if departure gate is in cache")
     departure_gate_from_cache = get_from_cache(flight_number)
     if departure_gate_from_cache is not None:
@@ -83,7 +83,7 @@ async def fetch_flight(flight_number=None, data_target=None, i=0):
         logger.debug(f"Selected flight with an index of {i}")
 
         logger.warning(f'Gate not found on historical flight from flight history with an index of {i}, trying again...')
-        return await fetch_flight(data_target=previous_flight["data-target"], i=i + 1)
+        return await fetch_gate(data_target=previous_flight["data-target"], i=i + 1)
 
     logger.debug("Finding valid departure gate")
     departure_gate = gate.text
